@@ -2,7 +2,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  useLocation,
 } from "react-router-dom";
 
 import logo from './logo.svg';
@@ -23,6 +24,9 @@ export default function App() {
             <li>
               <Link to="/users">Users</Link>
             </li>
+            <li>
+              <Link to="/will-not-match">Will not match</Link>
+            </li>
           </ul>
         </nav>
 
@@ -35,8 +39,11 @@ export default function App() {
           <Route path="/users">
             <Users />
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             <Home />
+          </Route>
+          <Route path="*">
+            <NoMatch />
           </Route>
         </Switch>
       </div>
@@ -45,7 +52,7 @@ export default function App() {
 }
 
 function Home() {
-  return <h2>Home 123</h2>;
+  return <h2>Home</h2>;
 }
 
 function About() {
@@ -54,4 +61,17 @@ function About() {
 
 function Users() {
   return <h2>Users</h2>;
+}
+
+function NoMatch() {
+  let location = useLocation();
+
+  return (
+    <div>
+      <h1>404</h1>
+      <h3>
+        No match for <code>{location.pathname}</code>
+      </h3>
+    </div>
+  );
 }
